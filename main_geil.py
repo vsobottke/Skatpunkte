@@ -12,20 +12,13 @@ from jinja2 import Environment, FileSystemLoader
 path = os.path.abspath(os.path.dirname(__file__))
 print("the path is " + path)
 env=Environment(loader=FileSystemLoader(path),trim_blocks=True)
-#Datenbank
-
-#SPIEL HINZUFÜGEN:
-spiel = int(time.time())
-anzahl_runden, anzahl_punkte = 12,1000
-cur.execute("""INSERT INTO spiel(datum, anzahl_runden, anzahl_punkte) VALUES(%s, %s, %s)""" % (spiel, anzahl_runden, anzahl_punkte))
-
-conn.commit()
 
 
 players = ["Vinne","Boettch","Sushi"]
 runde = Runde(1, 3, 192)
-spiel = Spiel(12,100)
-
+spiel = Spiel()
+spiel.id = 1
+# print(Spiel.create_spiel())
 
 def playerselect():
     string = "<select name='player'>"
@@ -57,8 +50,7 @@ class Skat(object):
 
     @cherrypy.expose
     def index(self):
-
-        return template.render(content=form+"<br>"+spiel.create_dataframe_from_runden(12), title="Arsch")
+        return template.render(content=spiel.get_spiele() + form+"<br>"+spiel.create_dataframe_from_runden(12), title="Arsch")
 
 #cherrypy.config.update("server.conf")
 
