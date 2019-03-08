@@ -20,7 +20,7 @@ class Spiel(object):
         spieler_2 = [(zeile[-1] if zeile[2] == id_spieler2 else 0) for zeile in runden]
         spieler_3 = [(zeile[-1] if zeile[2] == id_spieler3 else 0) for zeile in runden]
 
-        punkte_tabelle = DataFrame({'Spieler1': spieler_1, 'Spieler2': spieler_2, 'Spieler3': spieler_3}, dtype=int)
+        punkte_tabelle = DataFrame({'Vinne': spieler_1, 'Böttch': spieler_2, 'Sushi': spieler_3}, dtype=int)
         return punkte_tabelle.append(punkte_tabelle.sum(), ignore_index=True).to_html()
 
     def get_spiele(self):
