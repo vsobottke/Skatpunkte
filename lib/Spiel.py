@@ -31,6 +31,7 @@ class Spiel(object):
         zeitstempel = int(time.time())
         anzahl_runden, anzahl_punkte = anzahl_runden, anzahl_punkte
         cur.execute("""INSERT INTO spiel(datum, anzahl_runden, anzahl_punkte) VALUES(%s, %s, %s)""" % (zeitstempel, anzahl_runden, anzahl_punkte))
+
         conn.commit()
         return Spiel.get_spiel(cur.lastrowid)
 
