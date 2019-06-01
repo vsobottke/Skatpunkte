@@ -12,8 +12,8 @@ class Spiel(object):
     def get_runden(self, spiel_id):
         return cur.execute("SELECT * FROM runde WHERE spiel_id = %d" % (spiel_id)).fetchall()
 
-    def create_dataframe_from_runden(self, spiel_id):
-        runden = self.get_runden(spiel_id)
+    def create_dataframe_from_runden(self):
+        runden = self.get_runden(self.id)
         id_spieler1, id_spieler2, id_spieler3 = 0,1,2 # TODO: hartes hardcoding beseitigen (hart)
         # zeile[2] ist re-partei zeile[-1] entspricht Punktes
         spieler_1 = [(zeile[-1] if zeile[2] == id_spieler1 else 0) for zeile in runden]

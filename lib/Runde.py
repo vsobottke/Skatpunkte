@@ -24,6 +24,6 @@ class Runde(object):
 
     # TODO erweitern im weitere Eigenschaften wie Farbe, Spiel, verloren etc.
     @staticmethod
-    def createRunde(self, spiel_id, re_partei, punkte):
+    def createRunde(spiel_id, re_partei, punkte):
         cur.execute("""INSERT INTO runde(spiel_id, re_partei, punkte) VALUES(%s, %s, %s)""" % (spiel_id, re_partei, punkte))
         conn.commit()

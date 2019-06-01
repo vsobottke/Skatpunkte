@@ -17,9 +17,8 @@ env=Environment(loader=FileSystemLoader(path),trim_blocks=True)
 
 
 players = ["Vinne","Boettch","Sushi"]
-runde = Runde(1, 3, 192)
 spiel = Spiel()
-spiel.id = 1
+# spiel.id = 1
 # print(Spiel.create_spiel())
 
 def playerselect():
@@ -60,29 +59,37 @@ class Skat(object):
 
     @cherrypy.expose
     def generate_runde(self, points=0, player=14):
-        runde.createRunde(12, int(player), int(points))
+        Runde.createRunde(spiel.id, player, points)
         return  """<meta http-equiv="refresh" content="0; URL='/spiel'" />""" #weiterleitung auf spiel
 
 
     @cherrypy.expose
     def spiel(self):
-        return template.render(content=neue_runde_form+"<br>"+spiel.create_dataframe_from_runden(12), title="Spiel")
+        return template.render(content=neue_runde_form+"<br>"+spiel.create_dataframe_from_runden(), title="Spiel")
+
 
     @cherrypy.expose
     def generate_spiel(self):
-        spieler = Spieler.get_alle_spieler()
+        spieler_liste = Spieler.get_alle_spieler()
 
         spieler_auswahl = """<form method="get" action="create_spiel">"""
-        spieler_auswahl += create_spieler_select('spieler1', spieler) + create_spieler_select('spieler2', spieler) + create_spieler_select('spieler3', spieler)
+        spieler_auswahl +="Vorhand    " +create_spieler_select('vorhand', spieler_liste) +"<br>" \
+        +"Mittelhand "+create_spieler_select('mittelhand', spieler_liste) +"<br>" \
+        +"Hinterhand " +create_spieler_select('hinterhand', spieler_liste) +"<br>" + "<br>" \
+        +  "Re-Arsch   " + create_spieler_select("re_partei", spieler_liste) +  "<input type='number' value='18' name='punkte' />"
         spieler_auswahl += """<br><a href=neuer_spieler style= 'hidden'> Neuer Spieler </a><br>
+
         <button type="submit">Spiel erstellen</button>
       </form>"""
 
         return template.render(content=spieler_auswahl, title="Spielerauswahl")
 
     @cherrypy.expose
-    def create_spiel(self, spieler1, spieler2, spieler3):
-        # runde.createRunde(12, int(player), int(points))
+    def create_spiel(self, vorhand, mittelhand, hinterhand, re_partei, punkte):
+        spiel.id = Spiel.create_spiel()[0][0]
+        # Easy: Spieler + Re-Partei + Punkte werden hier übergeben
+        # Als nächstes muss der ein Eintrag in der DB-Tablle spielerpositionen erstellt werden
+        # danach muss die Runde angelegt werden: runde.createRunde(spiel.id, int(player), int(points))
         return  """<meta http-equiv="refresh" content="0; URL='/spiel'" />""" #weiterleitung auf spiel
 
 #cherrypy.config.update("server.conf")
