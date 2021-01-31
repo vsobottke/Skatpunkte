@@ -2,7 +2,7 @@ from pandas import DataFrame
 from  lib.DB_connection import cur,conn
 import time
 
-class Spieler(object):
+class Spieler:
     def __init__(self, name="Neuer Spieler"):
         self.name = name
 

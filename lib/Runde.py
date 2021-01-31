@@ -1,6 +1,6 @@
 from  lib.DB_connection import cur,conn
 
-class Runde(object):
+class Runde:
 
     # TODO: spielart, bock, re, kontra, mit, ohne, gewonnen, hand, ouvert, schneider, schneider_angesagt, schwarz, schwarz_angesagt,
     def __init__(self, spiel_id, re_partei, punkte):

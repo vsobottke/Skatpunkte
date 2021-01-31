@@ -2,7 +2,7 @@ from pandas import DataFrame
 from  lib.DB_connection import cur,conn
 import time
 
-class Spiel(object):
+class Spiel:
     def __init__(self, anzahl_runden=12, anzahl_punkte=1000):
         self.id = id
         self.datum = int(time.time())
@@ -14,13 +14,13 @@ class Spiel(object):
 
     def create_dataframe_from_runden(self):
         runden = self.get_runden(self.id)
-        id_spieler1, id_spieler2, id_spieler3 = 0,1,2 # TODO: hartes hardcoding beseitigen (hart)
+        id_spieler1, id_spieler2, id_spieler3 = 0,1,2  # TODO: avoid hardcoding here
         # zeile[2] ist re-partei zeile[-1] entspricht Punktes
         spieler_1 = [(zeile[-1] if zeile[2] == id_spieler1 else 0) for zeile in runden]
         spieler_2 = [(zeile[-1] if zeile[2] == id_spieler2 else 0) for zeile in runden]
         spieler_3 = [(zeile[-1] if zeile[2] == id_spieler3 else 0) for zeile in runden]
 
-        punkte_tabelle = DataFrame({'Vinne': spieler_1, 'Böttch': spieler_2, 'Sushi': spieler_3}, dtype=int)
+        punkte_tabelle = DataFrame({'Player1': spieler_1, 'Player2': spieler_2, 'Player3': spieler_3}, dtype=int)  # TODO: avoid hardcoding here
         return punkte_tabelle.append(punkte_tabelle.sum(), ignore_index=True).to_html()
 
     def get_spiele(self):
