@@ -21,17 +21,19 @@ spiel = Spiel()
 # spiel.id = 1
 # print(Spiel.create_spiel())
 
-def playerselect():
-    string = "<select name='player'>"
-    count = 0
-    for p in players:
-        string += "<option value=" + str(count) + ">" + p + "</option>"
-        count +=1
-    string += "</select>"
-    return string
+def create_player_select_tag(players):
+    """
+    Returns an html-select-tag with the options based on passed in players (list).
+    """
+
+    select = "<select name='player'>"
+    for count, player in enumerate(players):
+        select += f"<option value={count}>{player}</option>"
+    select += "</select>"
+    return select
 
 neue_runde_form = """<form method="get" action="generate_runde">
-          """ + playerselect() +  """
+          """ + create_player_select_tag(players) + """
           <input type="number" value="18" name="points" />
           <button type="submit">Eintragen</button>
         </form>"""
